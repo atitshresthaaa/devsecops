@@ -13,20 +13,15 @@ jobs:
 
 
     steps:
-      # Checkout repository
-      - uses: actions/checkout@v3
+    - name: Run Snyk to check for vulnerabilities
+    uses: snyk/actions/node@master
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    with:
+      args: --severity-threshold=high
 
-
-      # Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-
-      # Install dependencies
-      - name: Install dependencies
-        run: npm install
+  - name: Build
+    run: npm run build
     
 
             # Run Snyk vulnerability scan
